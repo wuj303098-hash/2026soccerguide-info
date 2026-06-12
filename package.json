@@ -1,0 +1,11 @@
+{
+  "name": "2026soccerguide-info",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static SEO site for 2026 World Cup TV schedules and U.S. viewer guides.",
+  "scripts": {
+    "build": "node generate-site.mjs",
+    "check": "node scripts/check-site.mjs",
+    "serve": "node server.mjs"
+  }
+}

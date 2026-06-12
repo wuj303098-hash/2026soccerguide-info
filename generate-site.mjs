@@ -254,6 +254,13 @@ function layout({ slug = "", title, description, h1, eyebrow = "Updated guide", 
     dateModified: "2026-06-12"
   })}
   ${schemaMarkup}
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-HRV650E6GY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-HRV650E6GY');
+  </script>
   <script src="https://analytics.ahrefs.com/analytics.js" data-key="hG3h7pHW5viF0I3UJIUErw" async></script>
 </head>
 <body data-path="${canonicalPath}">

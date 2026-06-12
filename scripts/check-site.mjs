@@ -38,6 +38,8 @@ for (const file of htmlFiles) {
     ["h1", /<h1[\s\S]*?<\/h1>/i],
     ["structured data", /application\/ld\+json/i],
     ["Ahrefs analytics", /<script src="https:\/\/analytics\.ahrefs\.com\/analytics\.js" data-key="hG3h7pHW5viF0I3UJIUErw" async><\/script>/i],
+    ["Google tag loader", /<script async src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-HRV650E6GY"><\/script>/i],
+    ["Google Analytics config", /gtag\('config', 'G-HRV650E6GY'\);/i],
     ["footer disclaimer", /Independent soccer viewer guide/i]
   ];
   for (const [label, pattern] of checks) {

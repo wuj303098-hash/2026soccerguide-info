@@ -254,6 +254,7 @@ function layout({ slug = "", title, description, h1, eyebrow = "Updated guide", 
     dateModified: "2026-06-12"
   })}
   ${schemaMarkup}
+  <script src="https://analytics.ahrefs.com/analytics.js" data-key="hG3h7pHW5viF0I3UJIUErw" async></script>
 </head>
 <body data-path="${canonicalPath}">
   <a class="skip-link" href="#main">Skip to content</a>

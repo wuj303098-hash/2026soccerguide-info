@@ -37,6 +37,7 @@ for (const file of htmlFiles) {
     ["canonical", /<link rel="canonical" href="https:\/\/2026soccerguide\.info\//i],
     ["h1", /<h1[\s\S]*?<\/h1>/i],
     ["structured data", /application\/ld\+json/i],
+    ["Ahrefs analytics", /<script src="https:\/\/analytics\.ahrefs\.com\/analytics\.js" data-key="hG3h7pHW5viF0I3UJIUErw" async><\/script>/i],
     ["footer disclaimer", /Independent soccer viewer guide/i]
   ];
   for (const [label, pattern] of checks) {

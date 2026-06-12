@@ -3,6 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.dirname(fileURLToPath(import.meta.url));
+const publicRoot = path.join(root, "public");
 const siteUrl = "https://2026soccerguide.info";
 const updated = "June 12, 2026";
 
@@ -634,12 +635,21 @@ function writeFile(relative, content) {
   fs.writeFileSync(fullPath, content, "utf8");
 }
 
+function writePublic(relative, content) {
+  const fullPath = path.join(publicRoot, relative);
+  fs.mkdirSync(path.dirname(fullPath), { recursive: true });
+  fs.writeFileSync(fullPath, content, "utf8");
+}
+
+fs.rmSync(publicRoot, { recursive: true, force: true });
+
 for (const page of pages) {
   const target = page.slug ? `${page.slug}/index.html` : "index.html";
   writeFile(target, page.html);
+  writePublic(target, page.html);
 }
 
-writeFile("styles.css", `:root {
+const stylesCss = `:root {
   --ink: #111814;
   --muted: #5d665f;
   --paper: #f6f7f0;
@@ -1135,9 +1145,12 @@ tr:last-child td {
     font-size: 0.88rem;
   }
 }
-`);
+`;
 
-writeFile("app.js", `const input = document.querySelector("#schedule-search");
+writeFile("styles.css", stylesCss);
+writePublic("styles.css", stylesCss);
+
+const appJs = `const input = document.querySelector("#schedule-search");
 const table = document.querySelector("#schedule-table");
 
 if (input && table) {
@@ -1156,20 +1169,29 @@ if (input && table) {
   input.addEventListener("input", filterRows);
   filterRows();
 }
-`);
+`;
+
+writeFile("app.js", appJs);
+writePublic("app.js", appJs);
 
 const urls = pages.map((page) => page.slug ? `${siteUrl}/${page.slug}/` : `${siteUrl}/`);
-writeFile("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
+const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map((url) => `  <url><loc>${url}</loc><lastmod>2026-06-12</lastmod><changefreq>daily</changefreq><priority>${url === siteUrl + "/" ? "1.0" : "0.8"}</priority></url>`).join("\n")}
 </urlset>
-`);
+`;
 
-writeFile("robots.txt", `User-agent: *
+writeFile("sitemap.xml", sitemapXml);
+writePublic("sitemap.xml", sitemapXml);
+
+const robotsTxt = `User-agent: *
 Allow: /
 
 Sitemap: ${siteUrl}/sitemap.xml
-`);
+`;
+
+writeFile("robots.txt", robotsTxt);
+writePublic("robots.txt", robotsTxt);
 
 writeFile("README.md", `# 2026 Soccer Guide
 

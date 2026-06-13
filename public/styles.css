@@ -207,6 +207,56 @@ a {
   background: var(--accent-soft);
 }
 
+.live-section {
+  padding-top: 1.5rem;
+}
+
+.live-panel {
+  border: 1px solid rgba(0, 107, 63, 0.25);
+  border-radius: var(--radius);
+  background: #fbfdf9;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.live-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--accent-soft);
+}
+
+.live-toolbar small {
+  color: var(--muted);
+}
+
+.live-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: var(--gold);
+  box-shadow: 0 0 0 4px rgba(213, 161, 30, 0.18);
+}
+
+.live-list {
+  padding: 1rem;
+}
+
+.score-line {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.4rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 900;
+}
+
 .section-head {
   max-width: 760px;
   margin-bottom: 1.4rem;

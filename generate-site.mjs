@@ -5,7 +5,8 @@ import { fileURLToPath } from "node:url";
 const root = path.dirname(fileURLToPath(import.meta.url));
 const publicRoot = path.join(root, "public");
 const siteUrl = "https://2026soccerguide.info";
-const updated = "June 12, 2026";
+const updated = "June 13, 2026";
+const currentDateKey = "2026-06-13";
 
 const image = {
   sofi: "https://commons.wikimedia.org/wiki/Special:Redirect/file/SoFi%20Stadium%202021.jpg?width=1600",
@@ -16,16 +17,19 @@ const image = {
 const sources = [
   ["FIFA 2026 official tournament hub", "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026"],
   ["FIFA host cities", "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/host-cities"],
+  ["ESPN public scoreboard", "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard"],
   ["Tubi World Cup FOX Hub", "https://tubitv.com/hubs/fifa-world-cup-fox-hub"],
   ["CBS schedule and how to watch", "https://www.cbsnews.com/news/world-cup-2026-schedule-how-to-watch/"]
 ];
 
 const nav = [
+  ["Today", "/world-cup-2026-games-today/"],
   ["Schedule", "/world-cup-2026-schedule/"],
+  ["Scores", "/world-cup-2026-scores-today/"],
   ["Where to Watch", "/where-to-watch-world-cup-2026-usa/"],
-  ["USA Team", "/usa-world-cup-2026-schedule/"],
-  ["Host Cities", "/world-cup-2026-host-cities/"],
-  ["FAQ", "/world-cup-2026-qualifiers-table/"]
+  ["USA", "/usa-world-cup-2026-schedule/"],
+  ["Canada", "/canada-world-cup-2026-schedule/"],
+  ["Mexico", "/mexico-world-cup-2026-schedule/"]
 ];
 
 const fixtures = [
@@ -104,6 +108,39 @@ const fixtures = [
 ].map(([date, time, match, group, venue, tv]) => ({ date, time, match, group, venue, tv }));
 
 const usaFixtures = fixtures.filter((fixture) => fixture.match.startsWith("USA vs."));
+const canadaFixtures = fixtures.filter((fixture) => fixture.match.includes("Canada"));
+const mexicoFixtures = fixtures.filter((fixture) => fixture.match.includes("Mexico"));
+
+function dateKeyForFixture(fixture) {
+  const [month, day] = fixture.date.split(" ");
+  const monthMap = { June: "06", July: "07" };
+  return `2026-${monthMap[month] || "06"}-${String(day).padStart(2, "0")}`;
+}
+
+function shiftDateKey(dateKey, days) {
+  const date = new Date(`${dateKey}T12:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+function fixturesOn(dateKey) {
+  return fixtures.filter((fixture) => dateKeyForFixture(fixture) === dateKey);
+}
+
+function fixturePayload(fixture) {
+  return {
+    dateKey: dateKeyForFixture(fixture),
+    date: fixture.date,
+    time: fixture.time || "Time TBA",
+    match: fixture.match,
+    group: fixture.group,
+    venue: fixture.venue,
+    tv: fixture.tv
+  };
+}
+
+const todayFixtures = fixturesOn(currentDateKey);
+const tomorrowFixtures = fixturesOn(shiftDateKey(currentDateKey, 1));
 
 const hostCities = [
   ["Atlanta", "Mercedes-Benz Stadium", "U.S.", "Southeast hub with early group-stage demand."],
@@ -125,9 +162,20 @@ const hostCities = [
 ];
 
 const internalLinks = [
+  ["/world-cup-2026-games-today/", "World Cup 2026 games today"],
+  ["/world-cup-2026-games-tomorrow/", "World Cup 2026 games tomorrow"],
+  ["/world-cup-2026-scores-today/", "World Cup 2026 scores today"],
   ["/world-cup-2026-schedule/", "World Cup 2026 schedule"],
   ["/where-to-watch-world-cup-2026-usa/", "Where to watch World Cup 2026 in the USA"],
   ["/usa-world-cup-2026-schedule/", "USA World Cup 2026 schedule"],
+  ["/canada-world-cup-2026-schedule/", "Canada World Cup 2026 schedule"],
+  ["/mexico-world-cup-2026-schedule/", "Mexico World Cup 2026 schedule"],
+  ["/usa-vs-paraguay-world-cup-2026/", "USA vs Paraguay World Cup 2026"],
+  ["/canada-vs-bosnia-herzegovina-world-cup-2026/", "Canada vs Bosnia and Herzegovina"],
+  ["/mexico-vs-south-africa-world-cup-2026/", "Mexico vs South Africa World Cup 2026"],
+  ["/where-is-usa-playing-world-cup-2026/", "Where is USA playing?"],
+  ["/where-is-canada-playing-world-cup-2026/", "Where is Canada playing?"],
+  ["/where-is-mexico-playing-world-cup-2026/", "Where is Mexico playing?"],
   ["/world-cup-2026-host-cities/", "World Cup 2026 host cities"],
   ["/world-cup-2026-opening-ceremony/", "World Cup 2026 opening ceremony"],
   ["/world-cup-2026-qualifiers-table/", "World Cup 2026 qualifiers table"],
@@ -165,6 +213,37 @@ function navHtml() {
 
 function ctaGrid() {
   return `<div class="link-grid">${internalLinks.map(([href, label]) => `<a class="link-tile" href="${href}"><span>${label}</span><small>Open guide</small></a>`).join("")}</div>`;
+}
+
+function liveMatchdayWidget({ id = "", mode = "today", dateKey = "", title, intro, filter = "", fallbackRows = [] }) {
+  const widgetId = id ? ` id="${id}"` : "";
+  const dateAttr = dateKey ? ` data-date="${escapeHtml(dateKey)}"` : "";
+  const rows = fallbackRows.length ? fallbackRows : fixtures.slice(0, 4);
+  return `
+    <section${widgetId} class="section live-section">
+      <div class="section-head">
+        <h2>${title}</h2>
+        <p>${intro}</p>
+      </div>
+      <div class="live-panel" data-live-matches data-mode="${escapeHtml(mode)}"${dateAttr} data-match-filter="${escapeHtml(filter)}">
+        <div class="live-toolbar">
+          <span class="live-dot" aria-hidden="true"></span>
+          <strong data-live-status>Checking live match data...</strong>
+          <small>Auto-refreshes every 60 seconds when the page is open.</small>
+        </div>
+        <div class="match-list live-list" data-live-list>
+          ${rows.map((fixture) => `
+            <article class="match-card live-card" data-fallback-card>
+              <span>${fixture.date}</span>
+              <h3>${fixture.match}</h3>
+              <p>${fixture.time || "Time TBA"} | ${fixture.venue}</p>
+              <small>${fixture.tv}</small>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+  `;
 }
 
 function matchRows(rows = fixtures) {
@@ -251,7 +330,7 @@ function layout({ slug = "", title, description, h1, eyebrow = "Updated guide", 
     description,
     url,
     isPartOf: { "@type": "WebSite", name: "2026 Soccer Guide", url: siteUrl },
-    dateModified: "2026-06-12"
+    dateModified: "2026-06-13"
   })}
   ${schemaMarkup}
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-HRV650E6GY"></script>
@@ -300,32 +379,40 @@ function layout({ slug = "", title, description, h1, eyebrow = "Updated guide", 
 }
 
 layout({
-  title: "2026 World Cup TV Schedule for US Fans | 2026 Soccer Guide",
-  description: "A fast U.S. viewer guide for the 2026 World Cup schedule, TV channels, free streaming notes, USA match times, host cities, and common fan questions.",
-  h1: "2026 World Cup TV Schedule for US Fans",
-  eyebrow: "U.S. match planner",
+  title: "2026 World Cup Matchday Tools | U.S., Canada, and Mexico Guide",
+  description: "Matchday tools for U.S., Canada, and Mexico fans: today's World Cup games, live score updates, TV channels, streaming notes, kickoff times, and host cities.",
+  h1: "2026 World Cup Matchday Tools for U.S., Canada, and Mexico Fans",
+  eyebrow: "U.S., Canada, and Mexico matchday tools",
   imageUrl: image.sofi,
   body: `
     <section class="dashboard-band">
       <div class="stat-strip">
-        <div><span>104</span><small>total matches</small></div>
-        <div><span>FOX / FS1</span><small>English TV path</small></div>
-        <div><span>Telemundo</span><small>Spanish TV path</small></div>
-        <div><span>ET to PT</span><small>time zones covered</small></div>
+        <div><span>Today</span><small>games and scores</small></div>
+        <div><span>Tomorrow</span><small>next match window</small></div>
+        <div><span>3 hosts</span><small>USA, Canada, Mexico</small></div>
+        <div><span>ET to PT</span><small>North America times</small></div>
       </div>
       <div class="notice">
-        <strong>Tonight's highest-intent match:</strong>
-        USA vs. Paraguay kicks off at 9:00 PM ET on June 12 in Inglewood, with FOX and Telemundo coverage. Tubi is promoting it as a live and free stream.
+        <strong>Matchday focus:</strong>
+        USA vs. Paraguay, Canada vs. Bosnia and Herzegovina, and Mexico vs. South Africa are the strongest host-team match pages. The live module below tries to update scores and status automatically, then falls back to the site schedule if a source is unavailable.
       </div>
     </section>
 
+    ${liveMatchdayWidget({
+      id: "live-matchday",
+      mode: "today",
+      title: "Today's World Cup Games and Live Scores",
+      intro: "This module checks a live scoreboard source first, then uses the local 2026 schedule as a safe fallback for TV, kickoff, and venue planning.",
+      fallbackRows: todayFixtures
+    })}
+
     <section class="section">
       <div class="section-head">
-        <h2>Today and Next Matches</h2>
-        <p>Built around the queries rising in Google Trends: schedule, where to watch, USA games, free streaming, and kickoff time.</p>
+        <h2>High-Intent Match Pages</h2>
+        <p>Built around the queries rising in Google Trends: who plays today, World Cup games tomorrow, USA vs. Paraguay, Canada vs. Bosnia, Mexico vs. South Africa, where to watch, and kickoff time.</p>
       </div>
       <div class="match-list">
-        ${fixtures.slice(2, 7).map((fixture) => `
+        ${[fixtures[0], fixtures[2], fixtures[3], fixtures[4], fixtures[5]].map((fixture) => `
           <article class="match-card">
             <span>${fixture.date}</span>
             <h3>${fixture.match}</h3>
@@ -403,6 +490,91 @@ layout({
       </div>
     </section>
     <section class="section">${ctaGrid()}</section>
+  `
+});
+
+layout({
+  slug: "world-cup-2026-games-today",
+  title: "World Cup 2026 Games Today | Times, TV Channels, Live Scores",
+  description: "World Cup 2026 games today with automatic score updates, kickoff times, TV channels, streaming notes, host cities, and North America time-zone context.",
+  h1: "World Cup 2026 Games Today",
+  imageUrl: image.sofi,
+  body: `
+    ${liveMatchdayWidget({
+      mode: "today",
+      title: "Live Matchday Board",
+      intro: "The board checks the live scoreboard source first. If the feed is unavailable, the static schedule cards remain visible.",
+      fallbackRows: todayFixtures
+    })}
+    <section class="section">
+      <div class="section-head">
+        <h2>Today's Confirmed Schedule</h2>
+        <p>Use this table for TV, venue, and kickoff planning. Live score status appears above when the data source is reachable.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date and time</th><th>Match</th><th>Host area</th><th>U.S. TV</th></tr></thead>
+          <tbody>${matchRows(todayFixtures)}</tbody>
+        </table>
+      </div>
+    </section>
+    <section class="section">${ctaGrid()}</section>
+  `
+});
+
+layout({
+  slug: "world-cup-2026-games-tomorrow",
+  title: "World Cup 2026 Games Tomorrow | Schedule, TV Channels, Times",
+  description: "World Cup 2026 games tomorrow with kickoff times, TV channels, streaming notes, host cities, and quick links to today scores and full schedule.",
+  h1: "World Cup 2026 Games Tomorrow",
+  imageUrl: image.metlife,
+  body: `
+    ${liveMatchdayWidget({
+      mode: "tomorrow",
+      title: "Tomorrow's Match Board",
+      intro: "This board is designed for fans planning the next matchday before lineups and live score data appear.",
+      fallbackRows: tomorrowFixtures
+    })}
+    <section class="section">
+      <div class="section-head">
+        <h2>Tomorrow's Schedule Table</h2>
+        <p>ET is listed first, with venue and TV notes kept together so visitors can scan quickly.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date and time</th><th>Match</th><th>Host area</th><th>U.S. TV</th></tr></thead>
+          <tbody>${matchRows(tomorrowFixtures)}</tbody>
+        </table>
+      </div>
+    </section>
+    <section class="section">${ctaGrid()}</section>
+  `
+});
+
+layout({
+  slug: "world-cup-2026-scores-today",
+  title: "World Cup 2026 Scores Today | Live Results and Match Status",
+  description: "World Cup 2026 scores today with automatic match status, live result cards, TV notes, venue details, and links to the full schedule.",
+  h1: "World Cup 2026 Scores Today",
+  imageUrl: image.att,
+  body: `
+    ${liveMatchdayWidget({
+      mode: "scores",
+      title: "Live Scores and Match Status",
+      intro: "Score cards refresh while the page is open. If live data is not returned, schedule cards stay available for TV and venue planning.",
+      fallbackRows: todayFixtures
+    })}
+    <section class="section split-section">
+      <div>
+        <h2>How Scores Update</h2>
+        <p>The browser calls the site's live match endpoint every 60 seconds. The endpoint attempts the scoreboard source and falls back to local match data when needed.</p>
+      </div>
+      <div class="key-list">
+        <p><strong>Primary use:</strong> today's score and status checks</p>
+        <p><strong>Fallback use:</strong> schedule, TV, and venue lookup</p>
+        <p><strong>Best next step:</strong> open the full schedule for all group matches</p>
+      </div>
+    </section>
   `
 });
 
@@ -486,6 +658,207 @@ layout({
       </div>
     </section>
   `
+});
+
+function teamSchedulePage({ slug, title, description, h1, teamName, fixturesForTeam, summary, facts, filter }) {
+  layout({
+    slug,
+    title,
+    description,
+    h1,
+    imageUrl: teamName === "Mexico" ? image.att : image.sofi,
+    body: `
+      ${liveMatchdayWidget({
+        mode: "today",
+        title: `${teamName} Live Match Status`,
+        intro: `Automatic scoreboard updates are attempted first. If no live row is available yet, use the confirmed ${teamName} schedule below.`,
+        filter,
+        fallbackRows: fixturesForTeam
+      })}
+      <section class="section">
+        <div class="section-head">
+          <h2>${teamName} Group-Stage Schedule</h2>
+          <p>${summary}</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Date and time</th><th>Match</th><th>Host area</th><th>U.S. TV</th></tr></thead>
+            <tbody>${matchRows(fixturesForTeam)}</tbody>
+          </table>
+        </div>
+      </section>
+      <section class="section split-section">
+        <div>
+          <h2>Where ${teamName} Plays</h2>
+          <p>These venue notes target the common search pattern "where is ${teamName} playing in the World Cup" and keep the answer close to the schedule table.</p>
+        </div>
+        <div class="key-list">
+          ${facts.map(([label, value]) => `<p><strong>${label}:</strong> ${value}</p>`).join("")}
+        </div>
+      </section>
+      <section class="section">${ctaGrid()}</section>
+    `
+  });
+}
+
+teamSchedulePage({
+  slug: "canada-world-cup-2026-schedule",
+  title: "Canada World Cup 2026 Schedule | Match Times, TV, Toronto, Vancouver",
+  description: "Canada World Cup 2026 schedule with Bosnia and Herzegovina, Qatar, and Switzerland match times, TV notes, Toronto, and Vancouver venues.",
+  h1: "Canada World Cup 2026 Schedule",
+  teamName: "Canada",
+  fixturesForTeam: canadaFixtures,
+  filter: "canada",
+  summary: "Canada opens against Bosnia and Herzegovina in Toronto, then plays Qatar and Switzerland in Vancouver.",
+  facts: [
+    ["Group", "B"],
+    ["Opening match", "Canada vs. Bosnia and Herzegovina in Toronto"],
+    ["Canadian venues", "Toronto and Vancouver"],
+    ["Main search angle", "Canada schedule, Canada score, and where Canada is playing"]
+  ]
+});
+
+teamSchedulePage({
+  slug: "mexico-world-cup-2026-schedule",
+  title: "Mexico World Cup 2026 Schedule | Match Times, TV, Mexico City",
+  description: "Mexico World Cup 2026 schedule with South Africa, South Korea, and Czechia match times, U.S. TV notes, Mexico City, and Guadalajara venues.",
+  h1: "Mexico World Cup 2026 Schedule",
+  teamName: "Mexico",
+  fixturesForTeam: mexicoFixtures,
+  filter: "mexico",
+  summary: "Mexico opens the tournament against South Africa in Mexico City, then plays South Korea in Guadalajara and Czechia back in Mexico City.",
+  facts: [
+    ["Group", "A"],
+    ["Opening match", "Mexico vs. South Africa in Mexico City"],
+    ["Mexico venues", "Mexico City and Guadalajara"],
+    ["Main search angle", "Mexico schedule, opening match, and where Mexico is playing"]
+  ]
+});
+
+function wherePlayingPage({ slug, title, description, h1, teamName, fixturesForTeam }) {
+  layout({
+    slug,
+    title,
+    description,
+    h1,
+    imageUrl: image.metlife,
+    body: `
+      <section class="answer-panel">
+        <h2>Quick Answer</h2>
+        <p>${teamName} plays in ${[...new Set(fixturesForTeam.map((fixture) => fixture.venue))].join(", ")} during the group stage.</p>
+      </section>
+      <section class="section">
+        <div class="section-head">
+          <h2>${teamName} Match Locations</h2>
+          <p>Use this page for the location query first, then move visitors into the full team schedule and watch guide.</p>
+        </div>
+        <div class="match-list">
+          ${fixturesForTeam.map((fixture) => `
+            <article class="match-card">
+              <span>${fixture.date}</span>
+              <h3>${fixture.match}</h3>
+              <p>${fixture.time || "Time TBA"} | ${fixture.venue}</p>
+              <small>${fixture.tv}</small>
+            </article>
+          `).join("")}
+        </div>
+      </section>
+      <section class="section">${ctaGrid()}</section>
+    `
+  });
+}
+
+wherePlayingPage({
+  slug: "where-is-usa-playing-world-cup-2026",
+  title: "Where Is USA Playing in World Cup 2026? | Venues and Times",
+  description: "Quick answer for where the USA is playing in World Cup 2026, with Inglewood and Seattle venues, match dates, TV channels, and kickoff times.",
+  h1: "Where Is USA Playing in World Cup 2026?",
+  teamName: "USA",
+  fixturesForTeam: usaFixtures
+});
+
+wherePlayingPage({
+  slug: "where-is-canada-playing-world-cup-2026",
+  title: "Where Is Canada Playing in World Cup 2026? | Toronto, Vancouver",
+  description: "Quick answer for where Canada is playing in World Cup 2026, with Toronto and Vancouver venues, match dates, TV channels, and kickoff times.",
+  h1: "Where Is Canada Playing in World Cup 2026?",
+  teamName: "Canada",
+  fixturesForTeam: canadaFixtures
+});
+
+wherePlayingPage({
+  slug: "where-is-mexico-playing-world-cup-2026",
+  title: "Where Is Mexico Playing in World Cup 2026? | Mexico City, Guadalajara",
+  description: "Quick answer for where Mexico is playing in World Cup 2026, with Mexico City and Guadalajara venues, match dates, TV channels, and kickoff times.",
+  h1: "Where Is Mexico Playing in World Cup 2026?",
+  teamName: "Mexico",
+  fixturesForTeam: mexicoFixtures
+});
+
+function matchDetailPage({ slug, title, description, h1, fixture, searchAngle, filter }) {
+  layout({
+    slug,
+    title,
+    description,
+    h1,
+    imageUrl: image.sofi,
+    body: `
+      ${liveMatchdayWidget({
+        mode: "today",
+        dateKey: dateKeyForFixture(fixture),
+        title: `${fixture.match} Live Status`,
+        intro: "This page attempts to update the score and status automatically while keeping the confirmed TV and venue notes visible.",
+        filter,
+        fallbackRows: [fixture]
+      })}
+      <section class="section split-section">
+        <div>
+          <h2>Match Details</h2>
+          <p>${searchAngle}</p>
+        </div>
+        <div class="key-list">
+          <p><strong>Date:</strong> ${fixture.date}</p>
+          <p><strong>Kickoff:</strong> ${fixture.time || "Time TBA"}</p>
+          <p><strong>Venue:</strong> ${fixture.venue}</p>
+          <p><strong>TV and streaming:</strong> ${fixture.tv}</p>
+        </div>
+      </section>
+      <section class="section">
+        <h2>Related Matchday Tools</h2>
+        ${ctaGrid()}
+      </section>
+    `
+  });
+}
+
+matchDetailPage({
+  slug: "canada-vs-bosnia-herzegovina-world-cup-2026",
+  title: "Canada vs Bosnia World Cup 2026 | Time, TV, Venue, Score",
+  description: "Canada vs Bosnia and Herzegovina World Cup 2026 match guide with kickoff time, live score module, TV channel, streaming notes, and Toronto venue.",
+  h1: "Canada vs Bosnia and Herzegovina World Cup 2026",
+  fixture: fixtures[2],
+  filter: "canada bosnia",
+  searchAngle: "This is the strongest Canada-related match spike in the latest trend files, so the page answers score, time, TV, and location first."
+});
+
+matchDetailPage({
+  slug: "usa-vs-paraguay-world-cup-2026",
+  title: "USA vs Paraguay World Cup 2026 | Time, TV, Venue, Score",
+  description: "USA vs Paraguay World Cup 2026 match guide with kickoff time, live score module, TV channel, streaming notes, and Inglewood venue.",
+  h1: "USA vs Paraguay World Cup 2026",
+  fixture: fixtures[3],
+  filter: "paraguay",
+  searchAngle: "This page targets U.S. viewers looking for the USA opener, including where to watch, kickoff time, and score status."
+});
+
+matchDetailPage({
+  slug: "mexico-vs-south-africa-world-cup-2026",
+  title: "Mexico vs South Africa World Cup 2026 | Time, TV, Venue, Score",
+  description: "Mexico vs South Africa World Cup 2026 opening match guide with kickoff time, live score module, TV channel, streaming notes, and Mexico City venue.",
+  h1: "Mexico vs South Africa World Cup 2026",
+  fixture: fixtures[0],
+  filter: "mexico south africa",
+  searchAngle: "Mexico's opener is a core host-team page because it connects opening match demand, Mexico schedule searches, and free streaming interest."
 });
 
 layout({
@@ -866,6 +1239,56 @@ a {
   background: var(--accent-soft);
 }
 
+.live-section {
+  padding-top: 1.5rem;
+}
+
+.live-panel {
+  border: 1px solid rgba(0, 107, 63, 0.25);
+  border-radius: var(--radius);
+  background: #fbfdf9;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.live-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--accent-soft);
+}
+
+.live-toolbar small {
+  color: var(--muted);
+}
+
+.live-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: var(--gold);
+  box-shadow: 0 0 0 4px rgba(213, 161, 30, 0.18);
+}
+
+.live-list {
+  padding: 1rem;
+}
+
+.score-line {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.4rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 900;
+}
+
 .section-head {
   max-width: 760px;
   margin-bottom: 1.4rem;
@@ -1177,15 +1600,234 @@ if (input && table) {
   input.addEventListener("input", filterRows);
   filterRows();
 }
+
+const escapeText = (value) => String(value || "").replace(/[&<>"']/g, (char) => ({
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;"
+}[char]));
+
+const livePanels = Array.from(document.querySelectorAll("[data-live-matches]"));
+
+function eventText(event) {
+  return [
+    event.name,
+    event.shortName,
+    event.homeTeam,
+    event.awayTeam,
+    event.venue,
+    event.status
+  ].join(" ").toLowerCase();
+}
+
+function matchesFilter(event, filter) {
+  const terms = String(filter || "").toLowerCase().split(/\\s+/).filter(Boolean);
+  if (!terms.length) return true;
+  const text = eventText(event);
+  return terms.every((term) => text.includes(term));
+}
+
+function renderLiveCard(event) {
+  const score = event.score || "Score pending";
+  return '<article class="match-card live-card">' +
+    '<span>' + escapeText(event.status || "Scheduled") + '</span>' +
+    '<h3>' + escapeText(event.name || event.shortName || "World Cup match") + '</h3>' +
+    '<p><strong class="score-line">' + escapeText(score) + '</strong></p>' +
+    '<p>' + escapeText(event.time || "Time TBA") + ' | ' + escapeText(event.venue || "Venue TBA") + '</p>' +
+    '<small>' + escapeText(event.broadcasts || event.source || "Check official listings") + '</small>' +
+  '</article>';
+}
+
+async function refreshLivePanel(panel) {
+  const mode = panel.dataset.mode || "today";
+  const filter = panel.dataset.matchFilter || "";
+  const status = panel.querySelector("[data-live-status]");
+  const list = panel.querySelector("[data-live-list]");
+  if (!list) return;
+
+  try {
+    const date = panel.dataset.date || "";
+    const query = new URLSearchParams({ mode: mode });
+    if (date) query.set("date", date);
+    const response = await fetch("/api/live-matches?" + query.toString(), { cache: "no-store" });
+    if (!response.ok) throw new Error("Live endpoint returned " + response.status);
+    const payload = await response.json();
+    const events = Array.isArray(payload.events) ? payload.events.filter((event) => matchesFilter(event, filter)) : [];
+    if (events.length) {
+      list.innerHTML = events.map(renderLiveCard).join("");
+      if (status) status.textContent = "Live data updated " + (payload.updatedLabel || "now");
+      return;
+    }
+    if (status) status.textContent = filter ? "No matching live score right now; showing schedule fallback." : "No live score rows right now; showing schedule fallback.";
+  } catch (error) {
+    if (status) status.textContent = "Live source unavailable; showing schedule fallback.";
+  }
+}
+
+for (const panel of livePanels) {
+  refreshLivePanel(panel);
+  window.setInterval(() => refreshLivePanel(panel), 60000);
+}
 `;
 
 writeFile("app.js", appJs);
 writePublic("app.js", appJs);
 
+const matchesJson = JSON.stringify({
+  updated,
+  source: "Static fallback schedule generated from site fixtures.",
+  fixtures: fixtures.map(fixturePayload)
+}, null, 2);
+
+writeFile("matches.json", `${matchesJson}\n`);
+writePublic("matches.json", `${matchesJson}\n`);
+
+const liveApiJs = `const fallbackFixtures = ${JSON.stringify(fixtures.map(fixturePayload), null, 2)};
+
+const SCOREBOARD_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard";
+
+function partValue(parts, type) {
+  const part = parts.find((item) => item.type === type);
+  return part ? part.value : "";
+}
+
+function dateKeyFor(date, days = 0) {
+  const shifted = new Date(date.getTime());
+  shifted.setUTCDate(shifted.getUTCDate() + days);
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).formatToParts(shifted);
+  return partValue(parts, "year") + "-" + partValue(parts, "month") + "-" + partValue(parts, "day");
+}
+
+function compactDateKey(dateKey) {
+  return String(dateKey || "").replace(/-/g, "");
+}
+
+function resolveDateKey(url) {
+  const explicit = url.searchParams.get("date");
+  if (/^\\d{4}-\\d{2}-\\d{2}$/.test(explicit || "")) return explicit;
+  const mode = url.searchParams.get("mode") || "today";
+  if (mode === "tomorrow") return dateKeyFor(new Date(), 1);
+  return dateKeyFor(new Date(), 0);
+}
+
+function formatKickoff(isoDate) {
+  if (!isoDate) return "Time TBA";
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short"
+  }).format(new Date(isoDate));
+}
+
+function venueName(competition) {
+  const venue = competition && competition.venue;
+  if (!venue) return "Venue TBA";
+  const city = venue.address && venue.address.city ? venue.address.city : "";
+  const country = venue.address && venue.address.country ? venue.address.country : "";
+  return [venue.fullName, city, country].filter(Boolean).join(", ");
+}
+
+function mapEvent(event) {
+  const competition = event.competitions && event.competitions[0] ? event.competitions[0] : {};
+  const competitors = Array.isArray(competition.competitors) ? competition.competitors : [];
+  const home = competitors.find((team) => team.homeAway === "home") || {};
+  const away = competitors.find((team) => team.homeAway === "away") || {};
+  const status = event.status && event.status.type ? event.status.type : {};
+  const homeName = home.team && home.team.displayName ? home.team.displayName : "";
+  const awayName = away.team && away.team.displayName ? away.team.displayName : "";
+  const hasScore = home.score !== undefined && away.score !== undefined && (status.state === "in" || status.completed);
+  const broadcasts = Array.isArray(competition.broadcasts)
+    ? competition.broadcasts.flatMap((item) => Array.isArray(item.names) ? item.names : []).join(", ")
+    : "";
+
+  return {
+    id: event.id,
+    name: awayName && homeName ? awayName + " at " + homeName : event.name,
+    shortName: event.shortName,
+    date: event.date,
+    time: formatKickoff(event.date),
+    status: status.shortDetail || status.detail || status.description || "Scheduled",
+    score: hasScore ? away.score + "-" + home.score : "",
+    homeTeam: homeName,
+    awayTeam: awayName,
+    venue: venueName(competition),
+    broadcasts,
+    source: "ESPN public scoreboard"
+  };
+}
+
+function fallbackFor(dateKey) {
+  return fallbackFixtures
+    .filter((fixture) => fixture.dateKey === dateKey)
+    .map((fixture, index) => ({
+      id: "fallback-" + dateKey + "-" + index,
+      name: fixture.match,
+      shortName: fixture.match,
+      date: fixture.dateKey,
+      time: fixture.time,
+      status: "Scheduled",
+      score: "",
+      homeTeam: "",
+      awayTeam: "",
+      venue: fixture.venue,
+      broadcasts: fixture.tv,
+      source: "Static fallback schedule"
+    }));
+}
+
+module.exports = async function handler(req, res) {
+  const host = req.headers.host || "2026soccerguide.info";
+  const url = new URL(req.url || "/api/live-matches", "https://" + host);
+  const dateKey = resolveDateKey(url);
+  const endpoint = SCOREBOARD_URL + "?dates=" + compactDateKey(dateKey);
+
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate=300");
+
+  try {
+    const response = await fetch(endpoint, { headers: { "accept": "application/json" } });
+    if (!response.ok) throw new Error("Scoreboard HTTP " + response.status);
+    const payload = await response.json();
+    const events = Array.isArray(payload.events) ? payload.events.map(mapEvent) : [];
+    res.status(200).json({
+      mode: url.searchParams.get("mode") || "today",
+      dateKey,
+      source: "ESPN public scoreboard",
+      updated: new Date().toISOString(),
+      updatedLabel: new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }),
+      events: events.length ? events : fallbackFor(dateKey)
+    });
+  } catch (error) {
+    res.status(200).json({
+      mode: url.searchParams.get("mode") || "today",
+      dateKey,
+      source: "Static fallback schedule",
+      updated: new Date().toISOString(),
+      updatedLabel: "from fallback schedule",
+      error: error.message,
+      events: fallbackFor(dateKey)
+    });
+  }
+};
+`;
+
+writeFile("api/live-matches.js", liveApiJs);
+
 const urls = pages.map((page) => page.slug ? `${siteUrl}/${page.slug}/` : `${siteUrl}/`);
 const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((url) => `  <url><loc>${url}</loc><lastmod>2026-06-12</lastmod><changefreq>daily</changefreq><priority>${url === siteUrl + "/" ? "1.0" : "0.8"}</priority></url>`).join("\n")}
+${urls.map((url) => `  <url><loc>${url}</loc><lastmod>2026-06-13</lastmod><changefreq>daily</changefreq><priority>${url === siteUrl + "/" ? "1.0" : "0.8"}</priority></url>`).join("\n")}
 </urlset>
 `;
 

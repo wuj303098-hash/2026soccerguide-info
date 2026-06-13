@@ -1,0 +1,654 @@
+{
+  "updated": "June 13, 2026",
+  "source": "Static fallback schedule generated from site fixtures.",
+  "fixtures": [
+    {
+      "dateKey": "2026-06-11",
+      "date": "June 11",
+      "time": "Time TBA",
+      "match": "Mexico vs. South Africa",
+      "group": "Group A",
+      "venue": "Mexico City",
+      "tv": "FOX, Telemundo, Tubi live/free"
+    },
+    {
+      "dateKey": "2026-06-11",
+      "date": "June 11",
+      "time": "Time TBA",
+      "match": "South Korea vs. Czechia",
+      "group": "Group A",
+      "venue": "Guadalajara",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-12",
+      "date": "June 12",
+      "time": "3:00 PM ET",
+      "match": "Canada vs. Bosnia and Herzegovina",
+      "group": "Group B",
+      "venue": "Toronto",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-12",
+      "date": "June 12",
+      "time": "9:00 PM ET",
+      "match": "USA vs. Paraguay",
+      "group": "Group D",
+      "venue": "Inglewood",
+      "tv": "FOX, Telemundo, Tubi live/free"
+    },
+    {
+      "dateKey": "2026-06-13",
+      "date": "June 13",
+      "time": "3:00 PM ET",
+      "match": "Qatar vs. Switzerland",
+      "group": "Group B",
+      "venue": "San Francisco Bay Area",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-13",
+      "date": "June 13",
+      "time": "6:00 PM ET",
+      "match": "Brazil vs. Morocco",
+      "group": "Group C",
+      "venue": "New York/New Jersey",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-13",
+      "date": "June 13",
+      "time": "9:00 PM ET",
+      "match": "Haiti vs. Scotland",
+      "group": "Group C",
+      "venue": "Boston",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-14",
+      "date": "June 14",
+      "time": "12:00 AM ET",
+      "match": "Australia vs. Turkey",
+      "group": "Group D",
+      "venue": "Vancouver",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-14",
+      "date": "June 14",
+      "time": "1:00 PM ET",
+      "match": "Germany vs. Curacao",
+      "group": "Group E",
+      "venue": "Houston",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-14",
+      "date": "June 14",
+      "time": "4:00 PM ET",
+      "match": "Netherlands vs. Japan",
+      "group": "Group F",
+      "venue": "Dallas",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-14",
+      "date": "June 14",
+      "time": "7:00 PM ET",
+      "match": "Ivory Coast vs. Ecuador",
+      "group": "Group E",
+      "venue": "Philadelphia",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-14",
+      "date": "June 14",
+      "time": "10:00 PM ET",
+      "match": "Sweden vs. Tunisia",
+      "group": "Group F",
+      "venue": "Monterrey",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-15",
+      "date": "June 15",
+      "time": "12:00 PM ET",
+      "match": "Spain vs. Cape Verde",
+      "group": "Group H",
+      "venue": "Atlanta",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-15",
+      "date": "June 15",
+      "time": "3:00 PM ET",
+      "match": "Belgium vs. Egypt",
+      "group": "Group G",
+      "venue": "Seattle",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-15",
+      "date": "June 15",
+      "time": "6:00 PM ET",
+      "match": "Saudi Arabia vs. Uruguay",
+      "group": "Group H",
+      "venue": "Miami",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-15",
+      "date": "June 15",
+      "time": "9:00 PM ET",
+      "match": "Iran vs. New Zealand",
+      "group": "Group G",
+      "venue": "Inglewood",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-16",
+      "date": "June 16",
+      "time": "3:00 PM ET",
+      "match": "France vs. Senegal",
+      "group": "Group I",
+      "venue": "New York/New Jersey",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-16",
+      "date": "June 16",
+      "time": "6:00 PM ET",
+      "match": "Iraq vs. Norway",
+      "group": "Group I",
+      "venue": "Boston",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-16",
+      "date": "June 16",
+      "time": "9:00 PM ET",
+      "match": "Argentina vs. Algeria",
+      "group": "Group J",
+      "venue": "Kansas City",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-17",
+      "date": "June 17",
+      "time": "12:00 AM ET",
+      "match": "Austria vs. Jordan",
+      "group": "Group J",
+      "venue": "San Francisco Bay Area",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-17",
+      "date": "June 17",
+      "time": "1:00 PM ET",
+      "match": "Portugal vs. DR Congo",
+      "group": "Group K",
+      "venue": "Houston",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-17",
+      "date": "June 17",
+      "time": "4:00 PM ET",
+      "match": "England vs. Croatia",
+      "group": "Group L",
+      "venue": "Dallas",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-17",
+      "date": "June 17",
+      "time": "7:00 PM ET",
+      "match": "Ghana vs. Panama",
+      "group": "Group L",
+      "venue": "Toronto",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-17",
+      "date": "June 17",
+      "time": "10:00 PM ET",
+      "match": "Uzbekistan vs. Colombia",
+      "group": "Group K",
+      "venue": "Mexico City",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-18",
+      "date": "June 18",
+      "time": "12:00 PM ET",
+      "match": "Czechia vs. South Africa",
+      "group": "Group A",
+      "venue": "Atlanta",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-18",
+      "date": "June 18",
+      "time": "3:00 PM ET",
+      "match": "Switzerland vs. Bosnia and Herzegovina",
+      "group": "Group B",
+      "venue": "Los Angeles",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-18",
+      "date": "June 18",
+      "time": "6:00 PM ET",
+      "match": "Canada vs. Qatar",
+      "group": "Group B",
+      "venue": "Vancouver",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-18",
+      "date": "June 18",
+      "time": "9:00 PM ET",
+      "match": "Mexico vs. South Korea",
+      "group": "Group A",
+      "venue": "Guadalajara",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-19",
+      "date": "June 19",
+      "time": "3:00 PM ET",
+      "match": "USA vs. Australia",
+      "group": "Group D",
+      "venue": "Seattle",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-19",
+      "date": "June 19",
+      "time": "6:00 PM ET",
+      "match": "Scotland vs. Morocco",
+      "group": "Group C",
+      "venue": "Boston",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-19",
+      "date": "June 19",
+      "time": "8:30 PM ET",
+      "match": "Brazil vs. Haiti",
+      "group": "Group C",
+      "venue": "Philadelphia",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-19",
+      "date": "June 19",
+      "time": "11:00 PM ET",
+      "match": "Turkey vs. Paraguay",
+      "group": "Group D",
+      "venue": "San Francisco Bay Area",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-20",
+      "date": "June 20",
+      "time": "1:00 PM ET",
+      "match": "Netherlands vs. Sweden",
+      "group": "Group F",
+      "venue": "Houston",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-20",
+      "date": "June 20",
+      "time": "4:00 PM ET",
+      "match": "Germany vs. Ivory Coast",
+      "group": "Group E",
+      "venue": "Toronto",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-20",
+      "date": "June 20",
+      "time": "8:00 PM ET",
+      "match": "Ecuador vs. Curacao",
+      "group": "Group E",
+      "venue": "Kansas City",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-21",
+      "date": "June 21",
+      "time": "12:00 AM ET",
+      "match": "Tunisia vs. Japan",
+      "group": "Group F",
+      "venue": "Monterrey",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-21",
+      "date": "June 21",
+      "time": "12:00 PM ET",
+      "match": "Spain vs. Saudi Arabia",
+      "group": "Group H",
+      "venue": "Atlanta",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-21",
+      "date": "June 21",
+      "time": "3:00 PM ET",
+      "match": "Belgium vs. Iran",
+      "group": "Group G",
+      "venue": "Inglewood",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-21",
+      "date": "June 21",
+      "time": "6:00 PM ET",
+      "match": "Uruguay vs. Cape Verde",
+      "group": "Group H",
+      "venue": "Miami",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-21",
+      "date": "June 21",
+      "time": "9:00 PM ET",
+      "match": "New Zealand vs. Egypt",
+      "group": "Group G",
+      "venue": "Vancouver",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-22",
+      "date": "June 22",
+      "time": "1:00 PM ET",
+      "match": "Argentina vs. Austria",
+      "group": "Group J",
+      "venue": "Dallas",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-22",
+      "date": "June 22",
+      "time": "5:00 PM ET",
+      "match": "France vs. Iraq",
+      "group": "Group I",
+      "venue": "Philadelphia",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-22",
+      "date": "June 22",
+      "time": "8:00 PM ET",
+      "match": "Norway vs. Senegal",
+      "group": "Group I",
+      "venue": "New York/New Jersey",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-22",
+      "date": "June 22",
+      "time": "11:00 PM ET",
+      "match": "Jordan vs. Algeria",
+      "group": "Group J",
+      "venue": "San Francisco Bay Area",
+      "tv": "FS1, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-23",
+      "date": "June 23",
+      "time": "1:00 PM ET",
+      "match": "Portugal vs. Uzbekistan",
+      "group": "Group K",
+      "venue": "Houston",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-23",
+      "date": "June 23",
+      "time": "4:00 PM ET",
+      "match": "England vs. Ghana",
+      "group": "Group L",
+      "venue": "Boston",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-23",
+      "date": "June 23",
+      "time": "7:00 PM ET",
+      "match": "Panama vs. Croatia",
+      "group": "Group L",
+      "venue": "Toronto",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-23",
+      "date": "June 23",
+      "time": "10:00 PM ET",
+      "match": "Colombia vs. DR Congo",
+      "group": "Group K",
+      "venue": "Guadalajara",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-24",
+      "date": "June 24",
+      "time": "3:00 PM ET",
+      "match": "Canada vs. Switzerland",
+      "group": "Group B",
+      "venue": "Vancouver",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-24",
+      "date": "June 24",
+      "time": "3:00 PM ET",
+      "match": "Bosnia and Herzegovina vs. Qatar",
+      "group": "Group B",
+      "venue": "Seattle",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-24",
+      "date": "June 24",
+      "time": "6:00 PM ET",
+      "match": "Morocco vs. Haiti",
+      "group": "Group C",
+      "venue": "Atlanta",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-24",
+      "date": "June 24",
+      "time": "6:00 PM ET",
+      "match": "Scotland vs. Brazil",
+      "group": "Group C",
+      "venue": "Miami",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-24",
+      "date": "June 24",
+      "time": "9:00 PM ET",
+      "match": "Mexico vs. Czechia",
+      "group": "Group A",
+      "venue": "Mexico City",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-24",
+      "date": "June 24",
+      "time": "9:00 PM ET",
+      "match": "South Korea vs. South Africa",
+      "group": "Group A",
+      "venue": "Monterrey",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-25",
+      "date": "June 25",
+      "time": "4:00 PM ET",
+      "match": "Curacao vs. Ivory Coast",
+      "group": "Group E",
+      "venue": "Philadelphia",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-25",
+      "date": "June 25",
+      "time": "4:00 PM ET",
+      "match": "Ecuador vs. Germany",
+      "group": "Group E",
+      "venue": "New York/New Jersey",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-25",
+      "date": "June 25",
+      "time": "7:00 PM ET",
+      "match": "Tunisia vs. Netherlands",
+      "group": "Group F",
+      "venue": "Kansas City",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-25",
+      "date": "June 25",
+      "time": "7:00 PM ET",
+      "match": "Japan vs. Sweden",
+      "group": "Group F",
+      "venue": "Dallas",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-25",
+      "date": "June 25",
+      "time": "10:00 PM ET",
+      "match": "USA vs. Turkey",
+      "group": "Group D",
+      "venue": "Inglewood",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-25",
+      "date": "June 25",
+      "time": "10:00 PM ET",
+      "match": "Paraguay vs. Australia",
+      "group": "Group D",
+      "venue": "San Francisco Bay Area",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-26",
+      "date": "June 26",
+      "time": "3:00 PM ET",
+      "match": "Norway vs. France",
+      "group": "Group I",
+      "venue": "Boston",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-26",
+      "date": "June 26",
+      "time": "3:00 PM ET",
+      "match": "Senegal vs. Iraq",
+      "group": "Group I",
+      "venue": "Toronto",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-26",
+      "date": "June 26",
+      "time": "8:00 PM ET",
+      "match": "Uruguay vs. Spain",
+      "group": "Group H",
+      "venue": "Guadalajara",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-26",
+      "date": "June 26",
+      "time": "8:00 PM ET",
+      "match": "Cape Verde vs. Saudi Arabia",
+      "group": "Group H",
+      "venue": "Houston",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-26",
+      "date": "June 26",
+      "time": "11:00 PM ET",
+      "match": "New Zealand vs. Belgium",
+      "group": "Group G",
+      "venue": "Vancouver",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-26",
+      "date": "June 26",
+      "time": "11:00 PM ET",
+      "match": "Egypt vs. Iran",
+      "group": "Group G",
+      "venue": "Seattle",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-27",
+      "date": "June 27",
+      "time": "5:00 PM ET",
+      "match": "Panama vs. England",
+      "group": "Group L",
+      "venue": "New York/New Jersey",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-27",
+      "date": "June 27",
+      "time": "5:00 PM ET",
+      "match": "Croatia vs. Ghana",
+      "group": "Group L",
+      "venue": "Philadelphia",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-27",
+      "date": "June 27",
+      "time": "7:30 PM ET",
+      "match": "Colombia vs. Portugal",
+      "group": "Group K",
+      "venue": "Miami",
+      "tv": "FOX, Telemundo"
+    },
+    {
+      "dateKey": "2026-06-27",
+      "date": "June 27",
+      "time": "7:30 PM ET",
+      "match": "DR Congo vs. Uzbekistan",
+      "group": "Group K",
+      "venue": "Atlanta",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-27",
+      "date": "June 27",
+      "time": "10:00 PM ET",
+      "match": "Algeria vs. Austria",
+      "group": "Group J",
+      "venue": "Kansas City",
+      "tv": "FS1, Universo"
+    },
+    {
+      "dateKey": "2026-06-27",
+      "date": "June 27",
+      "time": "10:00 PM ET",
+      "match": "Jordan vs. Argentina",
+      "group": "Group J",
+      "venue": "Dallas",
+      "tv": "FOX, Telemundo"
+    }
+  ]
+}

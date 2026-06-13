@@ -9,6 +9,7 @@ const requiredFiles = [
   "app.js",
   "sitemap.xml",
   "robots.txt",
+  "ce9f35d3f2b24fc9a0b8798e7b7f23db.txt",
   "world-cup-2026-schedule/index.html",
   "where-to-watch-world-cup-2026-usa/index.html",
   "usa-world-cup-2026-schedule/index.html",
@@ -31,7 +32,8 @@ const requiredFiles = [
   "has-us-ever-won-world-cup/index.html",
   "how-long-does-world-cup-last/index.html",
   "matches.json",
-  "api/live-matches.js"
+  "api/live-matches.js",
+  "scripts/submit-indexnow.mjs"
 ];
 
 const failures = [];
@@ -90,6 +92,20 @@ if (fs.existsSync(liveApiPath)) {
 
 const appJs = fs.readFileSync(path.join(root, "app.js"), "utf8");
 if (!/\/api\/live-matches\/\?/.test(appJs)) failures.push("app.js should fetch trailing-slash API endpoint");
+
+const indexNowKeyPath = path.join(root, "ce9f35d3f2b24fc9a0b8798e7b7f23db.txt");
+if (fs.existsSync(indexNowKeyPath)) {
+  const indexNowKey = fs.readFileSync(indexNowKeyPath, "utf8").trim();
+  if (indexNowKey !== "ce9f35d3f2b24fc9a0b8798e7b7f23db") failures.push("IndexNow key file has wrong content");
+}
+
+const indexNowScriptPath = path.join(root, "scripts/submit-indexnow.mjs");
+if (fs.existsSync(indexNowScriptPath)) {
+  const indexNowScript = fs.readFileSync(indexNowScriptPath, "utf8");
+  if (!/api\.indexnow\.org\/indexnow/.test(indexNowScript)) failures.push("IndexNow script missing API endpoint");
+  if (!/keyLocation/.test(indexNowScript)) failures.push("IndexNow script missing keyLocation");
+  if (!/sitemap\.xml/.test(indexNowScript)) failures.push("IndexNow script should read sitemap.xml");
+}
 
 if (failures.length) {
   console.error(failures.join("\n"));

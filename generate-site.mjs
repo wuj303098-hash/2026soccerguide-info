@@ -7,6 +7,7 @@ const publicRoot = path.join(root, "public");
 const siteUrl = "https://2026soccerguide.info";
 const updated = "June 13, 2026";
 const currentDateKey = "2026-06-13";
+const indexNowKey = "ce9f35d3f2b24fc9a0b8798e7b7f23db";
 
 const image = {
   sofi: "https://commons.wikimedia.org/wiki/Special:Redirect/file/SoFi%20Stadium%202021.jpg?width=1600",
@@ -1843,6 +1844,9 @@ Sitemap: ${siteUrl}/sitemap.xml
 writeFile("robots.txt", robotsTxt);
 writePublic("robots.txt", robotsTxt);
 
+writeFile(`${indexNowKey}.txt`, `${indexNowKey}\n`);
+writePublic(`${indexNowKey}.txt`, `${indexNowKey}\n`);
+
 writeFile("README.md", `# 2026 Soccer Guide
 
 Static SEO site for 2026soccerguide.info.
@@ -1851,6 +1855,7 @@ Static SEO site for 2026soccerguide.info.
 
 - \`npm run build\` regenerates HTML, CSS, JS, sitemap, and robots files.
 - \`npm run check\` validates the generated SEO surface.
+- \`npm run indexnow\` submits sitemap URLs through IndexNow after deployment.
 - \`npm run serve\` starts a local preview at http://localhost:4173.
 
 ## Positioning

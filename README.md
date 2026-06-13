@@ -6,6 +6,7 @@ Static SEO site for 2026soccerguide.info.
 
 - `npm run build` regenerates HTML, CSS, JS, sitemap, and robots files.
 - `npm run check` validates the generated SEO surface.
+- `npm run indexnow` submits sitemap URLs through IndexNow after deployment.
 - `npm run serve` starts a local preview at http://localhost:4173.
 
 ## Positioning

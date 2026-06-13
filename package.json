@@ -6,6 +6,7 @@
   "scripts": {
     "build": "node generate-site.mjs",
     "check": "node scripts/check-site.mjs",
+    "indexnow": "node scripts/submit-indexnow.mjs",
     "serve": "node server.mjs"
   }
 }

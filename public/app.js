@@ -68,7 +68,7 @@ async function refreshLivePanel(panel) {
     const date = panel.dataset.date || "";
     const query = new URLSearchParams({ mode: mode });
     if (date) query.set("date", date);
-    const response = await fetch("/api/live-matches?" + query.toString(), { cache: "no-store" });
+    const response = await fetch("/api/live-matches/?" + query.toString(), { cache: "no-store" });
     if (!response.ok) throw new Error("Live endpoint returned " + response.status);
     const payload = await response.json();
     const events = Array.isArray(payload.events) ? payload.events.filter((event) => matchesFilter(event, filter)) : [];

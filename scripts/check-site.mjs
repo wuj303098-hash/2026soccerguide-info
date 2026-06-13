@@ -88,6 +88,9 @@ if (fs.existsSync(liveApiPath)) {
   if (!/s-maxage=60/.test(liveApi)) failures.push("live API missing short cache policy");
 }
 
+const appJs = fs.readFileSync(path.join(root, "app.js"), "utf8");
+if (!/\/api\/live-matches\/\?/.test(appJs)) failures.push("app.js should fetch trailing-slash API endpoint");
+
 if (failures.length) {
   console.error(failures.join("\n"));
   process.exit(1);

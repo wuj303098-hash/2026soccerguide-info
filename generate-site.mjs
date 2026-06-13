@@ -177,6 +177,12 @@ const internalLinks = [
   ["/where-is-usa-playing-world-cup-2026/", "Where is USA playing?"],
   ["/where-is-canada-playing-world-cup-2026/", "Where is Canada playing?"],
   ["/where-is-mexico-playing-world-cup-2026/", "Where is Mexico playing?"],
+  ["/hwang-in-beom-world-cup-2026/", "Hwang In-beom World Cup 2026"],
+  ["/korea-republic-vs-czechia-world-cup-2026/", "Korea Republic vs Czechia"],
+  ["/where-to-watch-world-cup-2026-for-free/", "Where to watch World Cup 2026 for free"],
+  ["/world-cup-2026-mexico-safety/", "World Cup 2026 Mexico safety"],
+  ["/did-mexico-win-a-world-cup/", "Did Mexico win a World Cup?"],
+  ["/is-alphonso-davies-playing-world-cup-2026/", "Is Alphonso Davies playing?"],
   ["/world-cup-2026-host-cities/", "World Cup 2026 host cities"],
   ["/world-cup-2026-opening-ceremony/", "World Cup 2026 opening ceremony"],
   ["/world-cup-2026-qualifiers-table/", "World Cup 2026 qualifiers table"],
@@ -860,6 +866,211 @@ matchDetailPage({
   fixture: fixtures[0],
   filter: "mexico south africa",
   searchAngle: "Mexico's opener is a core host-team page because it connects opening match demand, Mexico schedule searches, and free streaming interest."
+});
+
+function trendArticlePage({ slug, title, description, h1, lead, keywordNotes, sections, faqs, relatedRows = [] }) {
+  layout({
+    slug,
+    title,
+    description,
+    h1,
+    eyebrow: "Trend explainer",
+    imageUrl: image.metlife,
+    schemaMarkup: schema("Article", {
+      headline: title,
+      description,
+      mainEntityOfPage: absolute(slug),
+      datePublished: "2026-06-13",
+      dateModified: "2026-06-13",
+      author: { "@type": "Organization", name: "2026 Soccer Guide" },
+      publisher: { "@type": "Organization", name: "2026 Soccer Guide" }
+    }) + faqSchema(faqs),
+    body: `
+      <section class="section split-section">
+        <div>
+          <h2>Why This Search Is Rising</h2>
+          <p>${lead}</p>
+        </div>
+        <div class="key-list">
+          ${keywordNotes.map(([label, value]) => `<p><strong>${label}:</strong> ${value}</p>`).join("")}
+        </div>
+      </section>
+      ${relatedRows.length ? `
+        <section class="section">
+          <div class="section-head">
+            <h2>Related Match Context</h2>
+            <p>Use the match rows below to move from trend curiosity into kickoff, TV, and venue planning.</p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Date and time</th><th>Match</th><th>Host area</th><th>U.S. TV</th></tr></thead>
+              <tbody>${matchRows(relatedRows)}</tbody>
+            </table>
+          </div>
+        </section>
+      ` : ""}
+      <section class="section">
+        <h2>What Fans Should Know</h2>
+        <div class="option-grid">
+          ${sections.map(([heading, copy]) => `<article><h3>${heading}</h3><p>${copy}</p></article>`).join("")}
+        </div>
+      </section>
+      <section class="section">
+        <h2>Quick FAQ</h2>
+        <div class="option-grid">
+          ${faqs.map(([question, answer]) => `<article><h3>${question}</h3><p>${answer}</p></article>`).join("")}
+        </div>
+      </section>
+      <section class="section">
+        <h2>Next Useful Pages</h2>
+        ${ctaGrid()}
+      </section>
+    `
+  });
+}
+
+trendArticlePage({
+  slug: "hwang-in-beom-world-cup-2026",
+  title: "Hwang In-beom World Cup 2026 | Why Searches Are Rising",
+  description: "Hwang In-beom World Cup 2026 trend explainer for fans tracking South Korea games, Korea Republic match demand, kickoff times, and where to watch.",
+  h1: "Hwang In-beom World Cup 2026 Search Guide",
+  lead: "Hwang In-beom is spiking because South Korea match searches are rising at the same time as Korea Republic vs. Czechia and broader Korea World Cup queries. This page keeps the player trend tied to the match schedule instead of turning it into thin celebrity news.",
+  keywordNotes: [
+    ["Trend keywords", "Hwang In-beom, Korea World Cup, South Korea World Cup"],
+    ["Best reader intent", "Who is being searched, which Korea match is connected, and where to watch"],
+    ["Safe angle", "Use match context and lineup verification close to kickoff"]
+  ],
+  relatedRows: [fixtures[1], fixtures[27], fixtures[53]],
+  sections: [
+    ["Why Hwang In-beom is searched", "Fans often search player names when a national-team match is live, about to start, or producing a notable moment. The surrounding trend data points to Korea match interest rather than a standalone biography query."],
+    ["Where to send visitors next", "Link readers to the Korea Republic vs. Czechia guide, the full schedule, and today's match board so the page has utility after the initial spike."],
+    ["What to verify", "Lineups, substitutions, injuries, and broadcast notes should be confirmed from official match centers or the live broadcast close to kickoff."]
+  ],
+  faqs: [
+    ["Why is Hwang In-beom trending?", "The trend appears connected to South Korea World Cup match demand and Korea Republic vs. Czechia searches."],
+    ["Is this a full player profile?", "No. It is a match-intent guide that explains why fans are searching the name during World Cup 2026."],
+    ["Where can I check the Korea schedule?", "Use the World Cup 2026 schedule page and the Korea Republic vs. Czechia match guide."]
+  ]
+});
+
+trendArticlePage({
+  slug: "korea-republic-vs-czechia-world-cup-2026",
+  title: "Korea Republic vs Czechia World Cup 2026 | Time, TV, Guide",
+  description: "Korea Republic vs Czechia World Cup 2026 guide with kickoff context, TV notes, South Korea trend keywords, and links to live matchday tools.",
+  h1: "Korea Republic vs Czechia World Cup 2026",
+  lead: "Korea Republic vs. Czechia is one of the clearest rising match queries in the trend files. It also explains the related lift in Korea World Cup, South Korea World Cup, Czechia, and Hwang In-beom searches.",
+  keywordNotes: [
+    ["Trend keywords", "Korea Republic vs Czechia World Cup 2026, Korea World Cup, Czechia"],
+    ["Match", "South Korea vs. Czechia"],
+    ["Host area", "Guadalajara"]
+  ],
+  relatedRows: [fixtures[1], fixtures[27], fixtures[53]],
+  sections: [
+    ["Main search intent", "Most visitors want the match time, TV path, venue, and whether the game is already complete. Keep those answers close to the top."],
+    ["Related team demand", "Korea queries can mean either South Korea schedule interest or player-specific search interest. The page should catch both and send users into the full schedule."],
+    ["After the match", "Once the match has ended, update the live score module and keep the page useful for result, replay, and group-stage context."]
+  ],
+  faqs: [
+    ["When is Korea Republic vs Czechia?", "The schedule row lists South Korea vs. Czechia on June 11 in Guadalajara, with time and TV notes shown in the match table."],
+    ["Why are Korea World Cup searches rising?", "They are rising alongside specific match and player-name searches."],
+    ["Where can I watch it?", "Check the match table and the where-to-watch guide for FOX, FS1, Telemundo, Universo, Tubi, and other authorized options."]
+  ]
+});
+
+trendArticlePage({
+  slug: "where-to-watch-world-cup-2026-for-free",
+  title: "Where to Watch World Cup 2026 for Free | Safe Streaming Guide",
+  description: "Where to watch World Cup 2026 for free, with cautious Tubi notes, over-the-air FOX options, Spanish-language TV paths, and safe viewing guidance.",
+  h1: "Where to Watch World Cup 2026 for Free",
+  lead: "The phrase where to watch World Cup 2026 for free is rising because casual fans want a no-cost option before kickoff. The safe SEO answer is specific: some matches may be available free through promoted or over-the-air options, but not every match should be described as free.",
+  keywordNotes: [
+    ["Trend keywords", "where to watch World Cup 2026 for free, Tubi World Cup, watch World Cup 2026"],
+    ["Best page type", "Practical watch guide, not a piracy or stream-list page"],
+    ["Important caution", "Do not claim every match is free"]
+  ],
+  relatedRows: [fixtures[0], fixtures[3], fixtures[4]],
+  sections: [
+    ["Over-the-air FOX", "Many U.S. viewers can watch FOX broadcast matches with local station access or an antenna, depending on the match and market."],
+    ["Selected free streaming", "Tubi has promoted selected World Cup content and specific live/free match opportunities. Visitors should confirm each match listing inside the app before kickoff."],
+    ["Spanish-language options", "Telemundo and Universo serve Spanish-language viewers. Availability can depend on cable, local TV, or streaming package access."]
+  ],
+  faqs: [
+    ["Can I watch every World Cup 2026 match for free?", "No. The safer answer is that selected matches and some over-the-air broadcasts may be free, while other matches may require a TV or streaming package."],
+    ["Is Tubi showing World Cup 2026 for free?", "Tubi is useful for selected promoted content and should be checked match by match."],
+    ["What is the safest free option?", "Start with official FOX, Tubi, Telemundo, or authorized app listings rather than unverified stream pages."]
+  ]
+});
+
+trendArticlePage({
+  slug: "world-cup-2026-mexico-safety",
+  title: "World Cup 2026 Mexico Safety | Travel and Matchday Tips",
+  description: "World Cup 2026 Mexico safety guide for fans visiting Mexico City, Guadalajara, or Monterrey, with matchday planning, transport, and venue tips.",
+  h1: "World Cup 2026 Mexico Safety Guide",
+  lead: "World Cup 2026 Mexico safety searches are rising because Mexico hosts the opener and several high-interest Group A matches. This article should answer practical travel questions without sensational language.",
+  keywordNotes: [
+    ["Trend keywords", "2026 World Cup Mexico safety, Mexico World Cup, Mexico vs South Africa"],
+    ["Best reader intent", "Can I plan a match trip safely and what should I check before going?"],
+    ["Host cities", "Mexico City, Guadalajara, Monterrey"]
+  ],
+  relatedRows: mexicoFixtures,
+  sections: [
+    ["Plan around official venues", "Use official stadium, ticket, and transport information where possible. Keep hotel, route, and matchday timing decisions close to known venue locations."],
+    ["Arrive early", "World Cup crowds make transport, entry lines, and neighborhood traffic slower than normal. Give yourself extra time before kickoff."],
+    ["Keep documents and tickets simple", "Store digital tickets, identification, and hotel details where they are easy to access, and avoid relying on one phone battery for everything."]
+  ],
+  faqs: [
+    ["Is Mexico hosting World Cup 2026 matches?", "Yes. Mexico hosts matches in Mexico City, Guadalajara, and Monterrey."],
+    ["Is this an official safety advisory?", "No. It is a fan planning guide. Travelers should check official government, venue, and event guidance before travel."],
+    ["Which Mexico match is the biggest search driver?", "Mexico vs. South Africa is the major opening-match search driver."]
+  ]
+});
+
+trendArticlePage({
+  slug: "did-mexico-win-a-world-cup",
+  title: "Did Mexico Win a World Cup? | Men's Tournament Record",
+  description: "Did Mexico win a World Cup? Quick answer for men's tournament history, Mexico World Cup 2026 schedule links, and related fan questions.",
+  h1: "Did Mexico Win a World Cup?",
+  lead: "Did Mexico win a World Cup and has Mexico ever won a World Cup are rising because host-team attention pulls in casual history questions. This page answers the question quickly, then sends readers to Mexico's 2026 schedule.",
+  keywordNotes: [
+    ["Trend keywords", "did Mexico win a World Cup, has Mexico ever won a World Cup"],
+    ["Quick answer", "Mexico has not won the men's World Cup"],
+    ["Useful next step", "Mexico World Cup 2026 schedule and opener guide"]
+  ],
+  relatedRows: mexicoFixtures,
+  sections: [
+    ["Short answer first", "Mexico has not won the men's World Cup. The team remains one of the most searched host nations because it is playing at home in 2026."],
+    ["Why the question spikes", "Host-country games bring in fans who may not follow tournament history closely, especially around the opening match."],
+    ["Where to go next", "The strongest next pages are Mexico's 2026 schedule, Mexico vs. South Africa, and where Mexico is playing."]
+  ],
+  faqs: [
+    ["Did Mexico win a World Cup?", "No. Mexico has not won the men's World Cup."],
+    ["Is Mexico in World Cup 2026?", "Yes. Mexico is a co-host and plays in Group A."],
+    ["Who does Mexico play in the group stage?", "Mexico plays South Africa, South Korea, and Czechia in the listed group-stage schedule."]
+  ]
+});
+
+trendArticlePage({
+  slug: "is-alphonso-davies-playing-world-cup-2026",
+  title: "Is Alphonso Davies Playing in World Cup 2026? | Canada Guide",
+  description: "Is Alphonso Davies playing in World Cup 2026? Canada fan guide with lineup caution, Canada schedule links, and where to verify matchday status.",
+  h1: "Is Alphonso Davies Playing in World Cup 2026?",
+  lead: "Is Alphonso Davies playing in the World Cup is a Canada-focused rising query. The reliable answer can change by matchday, so this page should point fans to Canada's schedule and explain where lineup status is confirmed.",
+  keywordNotes: [
+    ["Trend keywords", "is Alphonso Davies playing in the World Cup, Canada World Cup"],
+    ["Best reader intent", "Canada lineup status and next Canada match"],
+    ["Important caution", "Starting lineups should be verified close to kickoff"]
+  ],
+  relatedRows: canadaFixtures,
+  sections: [
+    ["Why fans search it", "Davies is one of Canada's best-known players, so casual fans often search his name before Canada matches."],
+    ["What can change", "Lineups, fitness, minutes, and substitutions can change by match. Avoid treating early search interest as a confirmed lineup."],
+    ["Best next step", "Use the Canada schedule page and live matchday board, then confirm lineups through official broadcast or match-center sources near kickoff."]
+  ],
+  faqs: [
+    ["Is Alphonso Davies playing in World Cup 2026?", "Check Canada's matchday lineup close to kickoff. This page links to Canada fixtures and live match context."],
+    ["Why is Alphonso Davies trending?", "The query is rising alongside Canada World Cup searches and Canada match interest."],
+    ["Where is Canada playing?", "Canada plays group-stage matches in Toronto and Vancouver."]
+  ]
 });
 
 layout({

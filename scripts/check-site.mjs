@@ -27,6 +27,12 @@ const requiredFiles = [
   "mexico-world-cup-2026-schedule/index.html",
   "mexico-vs-south-africa-world-cup-2026/index.html",
   "where-is-mexico-playing-world-cup-2026/index.html",
+  "hwang-in-beom-world-cup-2026/index.html",
+  "korea-republic-vs-czechia-world-cup-2026/index.html",
+  "where-to-watch-world-cup-2026-for-free/index.html",
+  "world-cup-2026-mexico-safety/index.html",
+  "did-mexico-win-a-world-cup/index.html",
+  "is-alphonso-davies-playing-world-cup-2026/index.html",
   "is-russia-in-world-cup-2026/index.html",
   "is-china-in-world-cup-2026/index.html",
   "has-us-ever-won-world-cup/index.html",
@@ -74,6 +80,24 @@ if (!/ET<\/span>/.test(index)) failures.push("Homepage missing timezone table");
 if (!/2026 World Cup Matchday Tools for U\.S\., Canada, and Mexico Fans/.test(index)) failures.push("Homepage missing matchday H1 positioning");
 if (!/id="live-matchday"/.test(index)) failures.push("Homepage missing live matchday module");
 if (!/Mexico vs\. South Africa/.test(index)) failures.push("Homepage missing Mexico opener");
+
+const trendArticleChecks = [
+  ["hwang-in-beom-world-cup-2026/index.html", /Hwang In-beom/i],
+  ["korea-republic-vs-czechia-world-cup-2026/index.html", /Korea Republic vs\. Czechia/i],
+  ["where-to-watch-world-cup-2026-for-free/index.html", /where to watch World Cup 2026 for free/i],
+  ["world-cup-2026-mexico-safety/index.html", /World Cup 2026 Mexico safety/i],
+  ["did-mexico-win-a-world-cup/index.html", /Did Mexico win a World Cup/i],
+  ["is-alphonso-davies-playing-world-cup-2026/index.html", /Alphonso Davies/i]
+];
+
+for (const [file, pattern] of trendArticleChecks) {
+  const fullPath = path.join(root, file);
+  if (!fs.existsSync(fullPath)) continue;
+  const html = fs.readFileSync(fullPath, "utf8");
+  if (!pattern.test(html)) failures.push(`${file} missing target trend phrase`);
+  if (!/"@type":"Article"/.test(html)) failures.push(`${file} missing Article schema`);
+  if (!/"@type":"FAQPage"/.test(html)) failures.push(`${file} missing FAQ schema`);
+}
 
 const matchesPath = path.join(root, "matches.json");
 if (fs.existsSync(matchesPath)) {

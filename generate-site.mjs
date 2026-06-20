@@ -5,14 +5,20 @@ import { fileURLToPath } from "node:url";
 const root = path.dirname(fileURLToPath(import.meta.url));
 const publicRoot = path.join(root, "public");
 const siteUrl = "https://2026soccerguide.info";
-const updated = "June 13, 2026";
-const currentDateKey = "2026-06-13";
+const buildDate = new Date();
+const currentDateKey = buildDate.toISOString().slice(0, 10);
+const updated = new Intl.DateTimeFormat("en-US", {
+  timeZone: "America/New_York",
+  month: "long",
+  day: "numeric",
+  year: "numeric"
+}).format(buildDate);
 const indexNowKey = "ce9f35d3f2b24fc9a0b8798e7b7f23db";
 
 const image = {
-  sofi: "https://commons.wikimedia.org/wiki/Special:Redirect/file/SoFi%20Stadium%202021.jpg?width=1600",
-  metlife: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Metlife%20stadium%20%28Aerial%20view%29.jpg?width=1600",
-  att: "https://commons.wikimedia.org/wiki/Special:Redirect/file/AT%26T%20Stadium%20Aerial.jpeg?width=1600"
+  sofi: "/assets/stadium-sofi.webp",
+  metlife: "/assets/stadium-metlife.webp",
+  att: "/assets/stadium-att.webp"
 };
 
 const sources = [
@@ -320,8 +326,9 @@ function layout({ slug = "", title, description, h1, eyebrow = "Updated guide", 
   <meta property="og:description" content="${escapeHtml(description)}">
   <meta property="og:type" content="website">
   <meta property="og:url" content="${url}">
-  <meta property="og:image" content="${imageUrl}">
+  <meta property="og:image" content="${siteUrl}${imageUrl}">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/styles.css">
   ${schema("WebSite", {
     name: "2026 Soccer Guide",
@@ -337,7 +344,7 @@ function layout({ slug = "", title, description, h1, eyebrow = "Updated guide", 
     description,
     url,
     isPartOf: { "@type": "WebSite", name: "2026 Soccer Guide", url: siteUrl },
-    dateModified: "2026-06-13"
+    dateModified: currentDateKey
   })}
   ${schemaMarkup}
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-HRV650E6GY"></script>
@@ -361,12 +368,12 @@ function layout({ slug = "", title, description, h1, eyebrow = "Updated guide", 
   <main id="main">
     <section class="page-hero">
       <div class="hero-copy">
-        <p class="eyebrow">${eyebrow} | ${updated}</p>
+        <p class="eyebrow">${eyebrow}</p>
         <h1>${h1}</h1>
         <p>${description}</p>
       </div>
       <figure class="hero-media">
-        <img src="${imageUrl}" alt="A 2026 World Cup host stadium exterior" loading="eager">
+        <img src="${imageUrl}" alt="A 2026 World Cup host stadium exterior" width="1280" height="720" loading="eager" decoding="async" fetchpriority="high">
         <figcaption>Built for quick match planning, TV lookups, and U.S. time zones.</figcaption>
       </figure>
     </section>
@@ -386,7 +393,7 @@ function layout({ slug = "", title, description, h1, eyebrow = "Updated guide", 
 }
 
 layout({
-  title: "2026 World Cup Matchday Tools | U.S., Canada, and Mexico Guide",
+  title: "2026 World Cup Matchday Tools | USA, Canada, Mexico",
   description: "Matchday tools for U.S., Canada, and Mexico fans: today's World Cup games, live score updates, TV channels, streaming notes, kickoff times, and host cities.",
   h1: "2026 World Cup Matchday Tools for U.S., Canada, and Mexico Fans",
   eyebrow: "U.S., Canada, and Mexico matchday tools",
@@ -400,8 +407,8 @@ layout({
         <div><span>ET to PT</span><small>North America times</small></div>
       </div>
       <div class="notice">
-        <strong>Matchday focus:</strong>
-        USA vs. Paraguay, Canada vs. Bosnia and Herzegovina, and Mexico vs. South Africa are the strongest host-team match pages. The live module below tries to update scores and status automatically, then falls back to the site schedule if a source is unavailable.
+        <strong>Live matchday focus:</strong>
+        Start with today's games, current scores, TV channels, and kickoff times. The live module below checks the current scoreboard automatically, then falls back to the full site schedule if a source is unavailable.
       </div>
     </section>
 
@@ -463,7 +470,7 @@ layout({
 
 layout({
   slug: "world-cup-2026-schedule",
-  title: "World Cup 2026 Schedule in U.S. Time | TV Channels and Match List",
+  title: "World Cup 2026 Schedule | U.S. Times and TV",
   description: "World Cup 2026 group-stage schedule in U.S. time with match dates, kickoff times, host cities, FOX or FS1 coverage, and Spanish-language TV notes.",
   h1: "World Cup 2026 Schedule in U.S. Time",
   imageUrl: image.metlife,
@@ -587,7 +594,7 @@ layout({
 
 layout({
   slug: "where-to-watch-world-cup-2026-usa",
-  title: "Where to Watch World Cup 2026 in the USA | TV and Streaming Guide",
+  title: "Where to Watch World Cup 2026 in USA | TV Guide",
   description: "A U.S. viewing guide for World Cup 2026 with FOX, FS1, Telemundo, Universo, Tubi, FOX One, Peacock, and live TV streaming options.",
   h1: "Where to Watch World Cup 2026 in the USA",
   imageUrl: image.att,
@@ -626,7 +633,7 @@ layout({
 
 layout({
   slug: "usa-world-cup-2026-schedule",
-  title: "USA World Cup 2026 Schedule | U.S. Match Times, TV Channels, Venues",
+  title: "USA World Cup 2026 Schedule | Times, TV, Venues",
   description: "USA World Cup 2026 group-stage schedule with Paraguay, Australia, and Turkey match times in ET, CT, MT, and PT plus U.S. TV notes.",
   h1: "USA World Cup 2026 Schedule",
   imageUrl: image.sofi,
@@ -710,7 +717,7 @@ function teamSchedulePage({ slug, title, description, h1, teamName, fixturesForT
 
 teamSchedulePage({
   slug: "canada-world-cup-2026-schedule",
-  title: "Canada World Cup 2026 Schedule | Match Times, TV, Toronto, Vancouver",
+  title: "Canada World Cup 2026 Schedule | Times, TV, Venues",
   description: "Canada World Cup 2026 schedule with Bosnia and Herzegovina, Qatar, and Switzerland match times, TV notes, Toronto, and Vancouver venues.",
   h1: "Canada World Cup 2026 Schedule",
   teamName: "Canada",
@@ -727,7 +734,7 @@ teamSchedulePage({
 
 teamSchedulePage({
   slug: "mexico-world-cup-2026-schedule",
-  title: "Mexico World Cup 2026 Schedule | Match Times, TV, Mexico City",
+  title: "Mexico World Cup 2026 Schedule | Times, TV, Venues",
   description: "Mexico World Cup 2026 schedule with South Africa, South Korea, and Czechia match times, U.S. TV notes, Mexico City, and Guadalajara venues.",
   h1: "Mexico World Cup 2026 Schedule",
   teamName: "Mexico",
@@ -786,7 +793,7 @@ wherePlayingPage({
 
 wherePlayingPage({
   slug: "where-is-canada-playing-world-cup-2026",
-  title: "Where Is Canada Playing in World Cup 2026? | Toronto, Vancouver",
+  title: "Where Is Canada Playing in World Cup 2026?",
   description: "Quick answer for where Canada is playing in World Cup 2026, with Toronto and Vancouver venues, match dates, TV channels, and kickoff times.",
   h1: "Where Is Canada Playing in World Cup 2026?",
   teamName: "Canada",
@@ -795,7 +802,7 @@ wherePlayingPage({
 
 wherePlayingPage({
   slug: "where-is-mexico-playing-world-cup-2026",
-  title: "Where Is Mexico Playing in World Cup 2026? | Mexico City, Guadalajara",
+  title: "Where Is Mexico Playing in World Cup 2026?",
   description: "Quick answer for where Mexico is playing in World Cup 2026, with Mexico City and Guadalajara venues, match dates, TV channels, and kickoff times.",
   h1: "Where Is Mexico Playing in World Cup 2026?",
   teamName: "Mexico",
@@ -860,7 +867,7 @@ matchDetailPage({
 
 matchDetailPage({
   slug: "mexico-vs-south-africa-world-cup-2026",
-  title: "Mexico vs South Africa World Cup 2026 | Time, TV, Venue, Score",
+  title: "Mexico vs South Africa World Cup 2026 | Match Guide",
   description: "Mexico vs South Africa World Cup 2026 opening match guide with kickoff time, live score module, TV channel, streaming notes, and Mexico City venue.",
   h1: "Mexico vs South Africa World Cup 2026",
   fixture: fixtures[0],
@@ -979,7 +986,7 @@ trendArticlePage({
 
 trendArticlePage({
   slug: "where-to-watch-world-cup-2026-for-free",
-  title: "Where to Watch World Cup 2026 for Free | Safe Streaming Guide",
+  title: "Where to Watch World Cup 2026 Free | Safe Options",
   description: "Where to watch World Cup 2026 for free, with cautious Tubi notes, over-the-air FOX options, Spanish-language TV paths, and safe viewing guidance.",
   h1: "Where to Watch World Cup 2026 for Free",
   lead: "The phrase where to watch World Cup 2026 for free is rising because casual fans want a no-cost option before kickoff. The safe SEO answer is specific: some matches may be available free through promoted or over-the-air options, but not every match should be described as free.",
@@ -1075,7 +1082,7 @@ trendArticlePage({
 
 layout({
   slug: "world-cup-2026-host-cities",
-  title: "World Cup 2026 Host Cities | U.S., Mexico, and Canada Venue Guide",
+  title: "World Cup 2026 Host Cities | USA, Canada, Mexico",
   description: "World Cup 2026 host cities and venues across the United States, Mexico, and Canada, with a U.S. viewer angle for match planning and travel searches.",
   h1: "World Cup 2026 Host Cities",
   imageUrl: image.metlife,
@@ -1102,7 +1109,7 @@ layout({
         <p>Start with Los Angeles, New York/New Jersey, Seattle, Dallas, Mexico City, and Toronto because they connect directly to USA games, opening-match demand, or final-match demand.</p>
       </div>
       <figure class="wide-photo">
-        <img src="${image.att}" alt="Aerial view of a major U.S. host stadium" loading="lazy">
+        <img src="${image.att}" alt="Aerial view of a major U.S. host stadium" width="1280" height="720" loading="lazy" decoding="async">
       </figure>
     </section>
   `
@@ -1110,7 +1117,7 @@ layout({
 
 layout({
   slug: "world-cup-2026-opening-ceremony",
-  title: "World Cup 2026 Opening Ceremony | Time, Performers, Match, Replay",
+  title: "World Cup 2026 Opening Ceremony | U.S. Guide",
   description: "World Cup 2026 opening ceremony guide for U.S. viewers, including the June 11 opener, performer search interest, Tubi replay notes, and what to verify.",
   h1: "World Cup 2026 Opening Ceremony Guide",
   imageUrl: image.sofi,
@@ -1139,8 +1146,8 @@ layout({
 
 layout({
   slug: "world-cup-2026-qualifiers-table",
-  title: "World Cup 2026 Qualifiers Table and Team FAQ | Final Tournament Guide",
-  description: "A simple World Cup 2026 qualifiers and team-intent guide answering whether Russia, China, Israel, the U.S., Mexico, and other searched teams are in the tournament.",
+  title: "World Cup 2026 Qualifiers Table and Team FAQ",
+  description: "World Cup 2026 qualifiers and team guide answering whether Russia, China, Israel, the U.S., Mexico, and other searched teams reached the tournament.",
   h1: "World Cup 2026 Qualifiers Table and Team FAQ",
   imageUrl: image.metlife,
   body: `
@@ -1197,7 +1204,7 @@ for (const page of faqPages) {
   layout({
     slug: page.slug,
     title: page.title,
-    description: `${page.answer} Updated for U.S. viewers with related 2026 schedule links and tournament context.`,
+    description: `${page.answer} Related schedule links and tournament context for U.S. viewers.`,
     h1: page.h1,
     imageUrl: image.att,
     schemaMarkup: faqSchema([[page.h1, page.answer]]),
@@ -1235,6 +1242,13 @@ function writePublic(relative, content) {
 }
 
 fs.rmSync(publicRoot, { recursive: true, force: true });
+
+for (const asset of ["stadium-sofi.webp", "stadium-metlife.webp", "stadium-att.webp"]) {
+  const source = path.join(root, "assets", asset);
+  const target = path.join(publicRoot, "assets", asset);
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.copyFileSync(source, target);
+}
 
 for (const page of pages) {
   const target = page.slug ? `${page.slug}/index.html` : "index.html";
@@ -1793,6 +1807,15 @@ tr:last-child td {
 writeFile("styles.css", stylesCss);
 writePublic("styles.css", stylesCss);
 
+const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="2026 Soccer Guide">
+  <rect width="64" height="64" rx="14" fill="#006b3f"/>
+  <text x="32" y="42" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="900" fill="#ffffff">26</text>
+</svg>
+`;
+
+writeFile("favicon.svg", faviconSvg);
+writePublic("favicon.svg", faviconSvg);
+
 const appJs = `const input = document.querySelector("#schedule-search");
 const table = document.querySelector("#schedule-table");
 
@@ -2039,7 +2062,7 @@ writeFile("api/live-matches.js", liveApiJs);
 const urls = pages.map((page) => page.slug ? `${siteUrl}/${page.slug}/` : `${siteUrl}/`);
 const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((url) => `  <url><loc>${url}</loc><lastmod>2026-06-13</lastmod><changefreq>daily</changefreq><priority>${url === siteUrl + "/" ? "1.0" : "0.8"}</priority></url>`).join("\n")}
+${urls.map((url) => `  <url><loc>${url}</loc><lastmod>${currentDateKey}</lastmod><changefreq>daily</changefreq><priority>${url === siteUrl + "/" ? "1.0" : "0.8"}</priority></url>`).join("\n")}
 </urlset>
 `;
 

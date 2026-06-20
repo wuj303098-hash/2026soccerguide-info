@@ -7,6 +7,10 @@ const requiredFiles = [
   "index.html",
   "styles.css",
   "app.js",
+  "favicon.svg",
+  "assets/stadium-sofi.webp",
+  "assets/stadium-metlife.webp",
+  "assets/stadium-att.webp",
   "sitemap.xml",
   "robots.txt",
   "ce9f35d3f2b24fc9a0b8798e7b7f23db.txt",
@@ -68,6 +72,15 @@ for (const file of htmlFiles) {
   for (const [label, pattern] of checks) {
     if (!pattern.test(html)) failures.push(`${file} missing ${label}`);
   }
+  const title = html.match(/<title>([^<]+)<\/title>/i)?.[1] || "";
+  const description = html.match(/<meta name="description" content="([^"]+)"/i)?.[1] || "";
+  if (title.length > 60) failures.push(`${file} title is ${title.length} characters`);
+  if (description.length > 160) failures.push(`${file} description is ${description.length} characters`);
+  if (!/<link rel="icon" href="\/favicon\.svg" type="image\/svg\+xml">/i.test(html)) failures.push(`${file} missing SVG favicon link`);
+  if (!/<figure class="hero-media">[\s\S]*?<img src="\/assets\/stadium-(?:sofi|metlife|att)\.webp"[^>]*width="1280"[^>]*height="720"[^>]*decoding="async"[^>]*fetchpriority="high"/i.test(html)) {
+    failures.push(`${file} missing optimized local hero image markup`);
+  }
+  if (/<p class="eyebrow">[^<]*\|\s*June 13, 2026<\/p>/i.test(html)) failures.push(`${file} has stale eyebrow date`);
   if (/<h1[\s\S]*?<h1/i.test(html)) failures.push(`${file} has more than one h1`);
   if (!/<h2[\s\S]*?<\/h2>/i.test(html)) failures.push(`${file} missing h2`);
   if (/\b(casino|betting|gambling|wager|odds)\b/i.test(html)) failures.push(`${file} contains excluded spam intent`);
@@ -80,6 +93,25 @@ if (!/ET<\/span>/.test(index)) failures.push("Homepage missing timezone table");
 if (!/2026 World Cup Matchday Tools for U\.S\., Canada, and Mexico Fans/.test(index)) failures.push("Homepage missing matchday H1 positioning");
 if (!/id="live-matchday"/.test(index)) failures.push("Homepage missing live matchday module");
 if (!/Mexico vs\. South Africa/.test(index)) failures.push("Homepage missing Mexico opener");
+if (/Matchday focus: USA vs\. Paraguay/.test(index)) failures.push("Homepage contains stale opener-focused copy");
+
+const favicon = path.join(root, "favicon.svg");
+if (fs.existsSync(favicon) && !/<svg[\s\S]*>26<[\s\S]*<\/svg>/i.test(fs.readFileSync(favicon, "utf8"))) {
+  failures.push("favicon.svg should contain the 26 brand mark");
+}
+
+for (const asset of ["stadium-sofi.webp", "stadium-metlife.webp", "stadium-att.webp"]) {
+  const assetPath = path.join(root, "assets", asset);
+  if (fs.existsSync(assetPath) && fs.statSync(assetPath).size > 250_000) failures.push(`${asset} exceeds 250 KB`);
+}
+
+const vercelConfig = JSON.parse(fs.readFileSync(path.join(root, "vercel.json"), "utf8"));
+const wwwRedirect = vercelConfig.redirects?.find((redirect) =>
+  redirect.permanent === true &&
+  redirect.destination === "https://2026soccerguide.info/:path*" &&
+  redirect.has?.some((condition) => condition.type === "host" && condition.value === "www.2026soccerguide.info")
+);
+if (!wwwRedirect) failures.push("vercel.json missing permanent www-to-apex redirect");
 
 const trendArticleChecks = [
   ["hwang-in-beom-world-cup-2026/index.html", /Hwang In-beom/i],
@@ -116,6 +148,12 @@ if (fs.existsSync(liveApiPath)) {
 
 const appJs = fs.readFileSync(path.join(root, "app.js"), "utf8");
 if (!/\/api\/live-matches\/\?/.test(appJs)) failures.push("app.js should fetch trailing-slash API endpoint");
+
+const previewServer = fs.readFileSync(path.join(root, "server.mjs"), "utf8");
+if (!/"\.webp":\s*"image\/webp"/.test(previewServer)) failures.push("preview server missing WebP MIME type");
+if (!/liveMatchesHandler/.test(previewServer) || !/\/api\/live-matches\//.test(previewServer)) {
+  failures.push("preview server missing live-match API adapter");
+}
 
 const indexNowKeyPath = path.join(root, "ce9f35d3f2b24fc9a0b8798e7b7f23db.txt");
 if (fs.existsSync(indexNowKeyPath)) {

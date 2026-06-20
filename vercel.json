@@ -3,6 +3,19 @@
   "outputDirectory": "public",
   "cleanUrls": true,
   "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.2026soccerguide.info"
+        }
+      ],
+      "destination": "https://2026soccerguide.info/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
